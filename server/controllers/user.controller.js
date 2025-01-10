@@ -8,7 +8,7 @@ const testRoute = (req, res) => {
 const getUserFromUserId = async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: userId }).populate("notes");
     if (!user) {
       return res.status(400).json({
         success: false,

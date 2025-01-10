@@ -18,8 +18,14 @@ const userSchema = new Schema({
   },
   profilePicture: {
     type: String,
-    default: '/static/default-profile-image.jpg',
+    default: "/static/default-profile-image.jpg",
   },
+  notes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Note",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

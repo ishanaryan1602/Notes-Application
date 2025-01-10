@@ -7,14 +7,16 @@ const {
   deleteNote,
   getNoteFromId,
 } = require("../controllers/note.controller");
+const checkCookie = require("../middleware/checkCookie");
 
 const router = express.Router();
-
+//non protected routes
 router.get("/test", testRoute);
 router.get("/allNotes", getAllNotes);
-router.get("/:id", getNoteFromId);
-router.post("/createNote", createNote);
-router.put("/:id", updateNote);
-router.delete("/:id", deleteNote);
+//protected routes
+router.get("/:id", checkCookie, getNoteFromId);
+router.post("/createNote", checkCookie, createNote);
+router.put("/:id", checkCookie, updateNote);
+router.delete("/:id", checkCookie, deleteNote);
 
 module.exports = router;

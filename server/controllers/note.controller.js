@@ -1,5 +1,6 @@
 const asyncHanlder = require("../middleware/asyncHandler");
 const Note = require("../models/note.model");
+const User = require("../models/user.model");
 
 const testRoute = (req, res) => {
   res.send("note testing route");
@@ -8,6 +9,11 @@ const testRoute = (req, res) => {
 const getAllNotes = asyncHanlder(async (req, res, next) => {
   try {
     const notes = await Note.find({});
+    if (notes.length === 0) {
+      const error = new Error("Create more notes to retreive them ");
+      error.statusCode = 404;
+      return next(error);
+    }
     return res.status(200).json({
       success: true,
       message: "All notes retreived succesfully",
@@ -20,13 +26,12 @@ const getAllNotes = asyncHanlder(async (req, res, next) => {
 
 const createNote = asyncHanlder(async (req, res, next) => {
   const { title, description, priority } = req.body;
-
+  const userId = req.user._id;
   if (!title || !description) {
     const error = new Error("All fields are required");
     error.statusCode = 400;
     return next(error);
   }
-
   if (priority) {
     if (!["high", "mid", "low"].includes(priority)) {
       const error = new Error("Invalid Priority field");
@@ -34,13 +39,16 @@ const createNote = asyncHanlder(async (req, res, next) => {
       return next(error);
     }
   }
-
   try {
+    const user = await User.findById(userId);
     const newNote = new Note({
       title,
       description,
       priority,
+      user_id: userId,
     });
+    user.notes.push(newNote._id);
+    await user.save();
     await newNote.save();
     return res.status(200).json({
       success: true,
@@ -54,8 +62,23 @@ const createNote = asyncHanlder(async (req, res, next) => {
 
 const updateNote = asyncHanlder(async (req, res, next) => {
   const noteId = req.params.id;
+  const userId = req.user._id;
   const { title, description, priority } = req.body;
   try {
+    const noteExists = await Note.findById(noteId);
+
+    if (!noteExists) {
+      const error = new Error("No such note exits");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (noteExists.user_id.toString() !== userId.toString()) {
+      const error = new Error("You are not authorized to edit this note");
+      error.statusCode = 403;
+      return next(error);
+    }
+
     const updates = {};
 
     if (title) updates.title = title;
@@ -67,14 +90,6 @@ const updateNote = asyncHanlder(async (req, res, next) => {
         return next(error);
       }
       updates.priority = priority;
-    }
-
-    const noteExists = await Note.findById(noteId);
-
-    if (!noteExists) {
-      const error = new Error("No such note exits");
-      error.statusCode = 404;
-      return next(error);
     }
 
     if (!title && !description && !priority) {
@@ -101,11 +116,17 @@ const updateNote = asyncHanlder(async (req, res, next) => {
 
 const deleteNote = asyncHanlder(async (req, res, next) => {
   const noteId = req.params.id;
+  const userId = req.user._id;
   try {
     const noteExists = await Note.findById(noteId);
     if (!noteExists) {
       const error = new Error("Note does not exist");
       error.statusCode = 404;
+      return next(error);
+    }
+    if (noteExists.user_id.toString() !== userId.toString()) {
+      const error = new Error("You are not authorized to delete this note");
+      error.statusCode = 403;
       return next(error);
     }
     await Note.findByIdAndDelete(noteId);
@@ -120,6 +141,7 @@ const deleteNote = asyncHanlder(async (req, res, next) => {
 
 const getNoteFromId = asyncHanlder(async (req, res, next) => {
   const noteId = req.params.id;
+  const userId = req.user._id;
   try {
     const findNote = await Note.findById(noteId);
     if (!findNote) {
@@ -127,10 +149,15 @@ const getNoteFromId = asyncHanlder(async (req, res, next) => {
       error.statusCode = 404;
       return next(error);
     }
+    if (findNote.user_id.toString() !== userId.toString()) {
+      const error = new Error("You are not authorized to view this note");
+      error.statusCode = 403;
+      return next(error);
+    }
     return res.status(200).json({
       success: true,
       message: "Note retrieved successfully",
-      note: findNote
+      note: findNote,
     });
   } catch (error) {
     return next(error);

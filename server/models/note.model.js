@@ -11,9 +11,13 @@ const noteSchema = new Schema({
     required: true,
   },
   priority: {
-    type:String,
+    type: String,
     enum: ["high", "low", "mid"],
     default: "low",
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
