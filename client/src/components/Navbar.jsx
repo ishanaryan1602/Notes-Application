@@ -41,22 +41,32 @@ const Navbar = () => {
         {/* logo */}
         <Link to="/">LOGO</Link>
         {/* navbar */}
-        <nav className="flex gap-[10px] border-2 p-1 border-dotted rounded-full">
+        <nav className="flex gap-[10px] border-2 p-1 border-dotted rounded-full tracking-wide font-mono">
           <Link
             to="/"
             className={`home hover:bg-gray-100 rounded-full p-1 px-4 ${
-              path.pathname === "/" && "bg-gray-100"
+              path.pathname === "/" ? "bg-gray-100" : "bg-white"
             }`}
           >
             Home
           </Link>
+
           <Link
             to="/about"
             className={`about hover:bg-gray-100 rounded-full p-1 px-4 ${
-              path.pathname === "/about" && "bg-gray-100"
+              path.pathname === "/about" ? "bg-gray-100" : "bg-white"
             }`}
           >
             About
+          </Link>
+
+          <Link
+            to="/notes"
+            className={`about hover:bg-gray-100 rounded-full p-1 px-4 ${
+              path.pathname === "/notes" ? "bg-gray-100" : "bg-white"
+            }`}
+          >
+            Notes
           </Link>
         </nav>
         {/* Authentication Section */}

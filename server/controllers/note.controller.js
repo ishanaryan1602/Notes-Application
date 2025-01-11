@@ -7,17 +7,25 @@ const testRoute = (req, res) => {
 };
 
 const getAllNotes = asyncHanlder(async (req, res, next) => {
+  const userId = req.user._id;
   try {
-    const notes = await Note.find({});
+    const user = await User.findById(userId).populate("notes");
+    console.log(user);
+    if (!user) {
+      const error = new Error("You are not authenticated");
+      error.statusCode = 404;
+      return next(error);
+    }
+    const notes = user.notes;
     if (notes.length === 0) {
-      const error = new Error("Create more notes to retreive them ");
+      const error = new Error("No notes found. Create some notes to retrieve them.");
       error.statusCode = 404;
       return next(error);
     }
     return res.status(200).json({
       success: true,
       message: "All notes retreived succesfully",
-      allNotes: notes,
+      notes: notes,
     });
   } catch (error) {
     return next(error);

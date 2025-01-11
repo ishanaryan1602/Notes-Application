@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import UserUpdate from "./pages/UserUpdate";
+import Notes from "./pages/Notes";
 
 const App = () => {
 
@@ -13,12 +14,13 @@ const App = () => {
     <>
       <div>
         <Navbar />
-        <div className="w-11/12 mx-auto mt-5">
+        <div className="w-11/12 mx-auto my-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/notes" element={<Notes />} />
             <Route path="/user-profile/:id" element={<UserUpdate />} />
           </Routes>
         </div>

@@ -12,8 +12,8 @@ const checkCookie = require("../middleware/checkCookie");
 const router = express.Router();
 //non protected routes
 router.get("/test", testRoute);
-router.get("/allNotes", getAllNotes);
 //protected routes
+router.get("/allNotes", checkCookie, getAllNotes);
 router.get("/:id", checkCookie, getNoteFromId);
 router.post("/createNote", checkCookie, createNote);
 router.put("/:id", checkCookie, updateNote);

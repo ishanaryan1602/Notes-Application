@@ -116,7 +116,7 @@ const UserUpdate = () => {
       <div className="my-[50px]">
         <img
           src={`http://localhost:8000${user?.profilePicture}`}
-          className="rounded-full h-[50px] w-[50px] mx-auto"
+          className="rounded-full h-[150px] w-[150px] mx-auto"
           alt="profile"
         />
       </div>
@@ -164,7 +164,7 @@ const UserUpdate = () => {
         </button>
       </form>
       <button
-        className={`cursor-pointer w-[300px] text-[15px] p-2 px-3 bg-black text-white border-[1px] border-black hover:border-black hover:text-black hover:bg-white duration-300 transition-all mt-5 mx-auto flex items-center justify-center gap-[5px] `}
+        className={`cursor-pointer w-[300px] text-[15px] p-2 px-3 bg-black text-white border-[1px] border-black hover:text-red-500 hover:border-red-500 hover:bg-white duration-300 transition-all mt-5 mx-auto flex items-center justify-center gap-[5px] `}
         onMouseEnter={() => setShowBin(true)}
         onMouseLeave={() => setShowBin(false)}
         onClick={handleUserDelete}
