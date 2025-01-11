@@ -9,6 +9,7 @@ import UserUpdate from "./pages/UserUpdate";
 import Notes from "./pages/Notes";
 import UnauthorizedLogin from "./pages/UnauthorizedLogin";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import PriorityNotes from "./pages/PriorityNotes ";
 
 const App = () => {
   return (
@@ -28,6 +29,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Notes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notes/priority/:priority"
+              element={
+                <ProtectedRoute>
+                  <PriorityNotes />
                 </ProtectedRoute>
               }
             />

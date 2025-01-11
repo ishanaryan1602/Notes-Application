@@ -116,7 +116,7 @@ const UserUpdate = () => {
       <div className="my-[50px]">
         <img
           src={`http://localhost:8000${user?.profilePicture}`}
-          className="rounded-full h-[150px] w-[150px] mx-auto"
+          className="rounded-full h-[150px] w-[150px] mx-auto object-cover"
           alt="profile"
         />
       </div>

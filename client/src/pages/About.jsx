@@ -19,29 +19,6 @@ const About = () => {
     `,
     },
     {
-      content: `The platform offers a clean and responsive user interface built with
-          React and React Router, ensuring seamless navigation across desktop
-          and mobile devices. The backend, powered by Node.js and Express, is
-          designed to handle requests efficiently, while MongoDB with Mongoose
-          ensures reliable data storage and retrieval. Authentication and
-          session management are securely handled with JWT, giving users the
-          confidence that their data is protected. The intuitive design and
-          seamless integration between the frontend and backend create a smooth
-          user experience, making note management easier than ever.`,
-    },
-    {
-      content: `Future enhancements aim to further enrich the application by
-          introducing features like a search and filter option to quickly locate
-          notes, a rich text editor for formatting with bold, italics, and
-          lists, and categories to organize notes effectively. Additionally,
-          users will soon be able to upload files or images to their notes,
-          enhancing the versatility of the application. To cater to user
-          preferences, a dark mode option will be introduced, allowing seamless
-          toggling between light and dark themes. These upgrades will elevate
-          the platform, making it a comprehensive tool for personal and
-          professional note management.`,
-    },
-    {
       content: ` The Note-Making Application utilizes modern technologies and best
           practices to deliver a reliable and efficient solution. The frontend's
           styling could be further improved with Tailwind CSS or Material-UI for
@@ -58,10 +35,15 @@ const About = () => {
   return (
     <div className="flex gap-5">
       <div className="w-fit opacity-0 fadeInAnimation">
-        <img src="self.jpg" alt="" className="w-[full] h-[full]" />
+        <img src="self.jpg" alt="" className="w-[full] h-[full] rounded-lg" />
       </div>
       <div className="flex flex-col gap-5">
-        <p className="bg-gray-100 text-[20px] p-3">
+        
+        <div className="bg-gray-100 p-[20px] rounded-xl relative opacity-0 fadeInAnimation">
+          <div className="h-[150px] w-[100px] bg-gray-100 absolute bottom-[-40px] right-[0px]" style={{
+            clipPath: "polygon(100% 0, 0 0, 100% 100%)"
+          }} ></div>
+          <p className="text-[20px] pb-5">
           {splitHeading.map((item, index) => {
             return (
               <span
@@ -72,7 +54,7 @@ const About = () => {
                     : "fadeInAnimation"
                 }`}
                 style={{
-                  animationDelay: `${0.3 * index}s`,
+                  animationDelay: `${0.9 * index}s`,
                 }}
               >
                 {item}
@@ -80,19 +62,20 @@ const About = () => {
             );
           })}
         </p>
-        {aboutParagraphs.map((item, index) => {
-          return (
-            <p
-              className="text-[16px] font-light text-justify opacity-0 fadeInAnimation"
-              key={index}
-              style={{
-                animationDelay: `${index * 0.5}s`,
-              }}
-            >
-              {item.content}
-            </p>
-          );
-        })}
+          {aboutParagraphs.map((item, index) => {
+            return (
+              <p
+                className="text-justify mb-[20px] opacity-0 fadeInAnimation z-[10]"
+                key={index}
+                style={{
+                  animationDelay: `${index * 0.5}s`,
+                }}
+              >
+                {item.content}
+              </p>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

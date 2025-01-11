@@ -1,0 +1,14 @@
+@keyframes dropDown {
+  0% {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dropDownAnimation {
+  animation: dropDown 1s forwards;
+}

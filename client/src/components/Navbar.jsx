@@ -78,7 +78,7 @@ const Navbar = () => {
             >
               <img
                 src={`http://localhost:8000${user?.profilePicture}`}
-                className="h-full w-full rounded-full"
+                className="h-full w-full rounded-full object-cover"
                 alt="profile"
               />
             </Link>

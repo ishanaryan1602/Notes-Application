@@ -8,6 +8,7 @@ const testRoute = (req, res) => {
 
 const getAllNotes = asyncHanlder(async (req, res, next) => {
   const userId = req.user._id;
+  const { priority } = req.query;
   try {
     const user = await User.findById(userId).populate("notes");
     console.log(user);
@@ -16,15 +17,21 @@ const getAllNotes = asyncHanlder(async (req, res, next) => {
       error.statusCode = 404;
       return next(error);
     }
-    const notes = user.notes;
+    const query = priority ? { priority } : {};
+    let notes = user.notes;
+    if (priority) {
+      notes = notes.filter((item) => item.priority === priority);
+    }
     if (notes.length === 0) {
-      const error = new Error("No notes found. Create some notes to retrieve them.");
+      const error = new Error(
+        "No notes found. Create some notes to retrieve them."
+      );
       error.statusCode = 404;
       return next(error);
     }
     return res.status(200).json({
       success: true,
-      message: "All notes retreived succesfully",
+      message: "All notes retrieved succesfully",
       notes: notes,
     });
   } catch (error) {
