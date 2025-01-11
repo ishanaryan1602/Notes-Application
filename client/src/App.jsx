@@ -7,9 +7,10 @@ import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import UserUpdate from "./pages/UserUpdate";
 import Notes from "./pages/Notes";
+import UnauthorizedLogin from "./pages/UnauthorizedLogin";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 const App = () => {
-
   return (
     <>
       <div>
@@ -20,8 +21,16 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/notes" element={<Notes />} />
             <Route path="/user-profile/:id" element={<UserUpdate />} />
+            <Route path="/unauthorized" element={<UnauthorizedLogin />} />
+            <Route
+              path="/notes"
+              element={
+                <ProtectedRoute>
+                  <Notes />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>
