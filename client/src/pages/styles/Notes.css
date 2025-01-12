@@ -3,6 +3,9 @@
     transform: translateY(-300px);
     opacity: 0;
   }
+  30% {
+    opacity: 0;
+  }
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -10,5 +13,8 @@
 }
 
 .dropDownAnimation {
-  animation: dropDown 1s forwards;
+  animation: dropDown 0.5s forwards;
+}
+.notes-container::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
 }

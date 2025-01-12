@@ -11,7 +11,6 @@ const getAllNotes = asyncHanlder(async (req, res, next) => {
   const { priority } = req.query;
   try {
     const user = await User.findById(userId).populate("notes");
-    console.log(user);
     if (!user) {
       const error = new Error("You are not authenticated");
       error.statusCode = 404;
