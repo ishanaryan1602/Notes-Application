@@ -1,0 +1,29 @@
+
+
+/* width */
+.textarea_class::-webkit-scrollbar {
+  /* width: 3px; */
+  display: none;
+}
+
+/* Track */
+.textarea_class::-webkit-scrollbar-track {
+  /* background: #f1f1f1; */
+  background: white;
+}
+
+/* Handle */
+.textarea_class::-webkit-scrollbar-thumb {
+  background: #dadada;
+  background: black;
+  border-radius: 1000px;
+  margin: 20px;
+}
+
+/* Handle on hover */
+.textarea_class::-webkit-scrollbar-thumb:hover {
+  /* background: #777; */
+  background: #888;
+  background: black;
+  cursor: pointer;
+}

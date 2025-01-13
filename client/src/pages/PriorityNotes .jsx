@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BiChevronRight } from "react-icons/bi";
-import { FaPlus } from "react-icons/fa6";
 import "./styles/PriorityNotes.css";
 import NoteComponent from "../components/NoteComponent";
 
@@ -10,22 +9,18 @@ const PriorityNotes = () => {
   const { priority } = useParams();
   const [priorityName, setPriorityName] = useState("");
   const [textColor, setTextColor] = useState("");
-  const [noteColor, setNoteColor] = useState("");
   const [filteredNotes, setFilteredNotes] = useState([]);
 
   useEffect(() => {
     if (priority === "high") {
       setPriorityName("Critical");
       setTextColor("text-red-500");
-      setNoteColor(`bg-[rgb(255,240,240)]`);
     } else if (priority === "mid") {
       setPriorityName("Important");
       setTextColor("text-yellow-500");
-      setNoteColor(`bg-yellow-50`);
     } else if (priority === "low") {
       setPriorityName("Low Importance");
       setTextColor("text-blue-500");
-      setNoteColor(`bg-[rgb(245,245,255)]`);
     }
   }, [priority]);
 
@@ -51,9 +46,6 @@ const PriorityNotes = () => {
 
   return (
     <div className="min-h-[85vh] relative">
-      <span className={`${noteColor} text-[20px] transition-all duration-300 w-fit h-fit absolute right-0 bottom-0 flex justify-center items-center p-[18px] rounded-full hover:shadow-lg cursor-pointer hover:scale-110 `}>
-      <FaPlus className={`${textColor} font-extralight `} />
-      </span>
       <h1 className={`text-[40px] ${textColor}`}>{priorityName} Notes</h1>
       <span className="flex itesm-center text-sm text-gray-400 ">
         <Link
@@ -80,7 +72,14 @@ const PriorityNotes = () => {
           );
 
           return (
-            <NoteComponent key={note._id} title={note.title} date={formattedDate} description={note.description} index={index} noteColor={noteColor} />
+            <NoteComponent
+              key={note._id}
+              title={note.title}
+              date={formattedDate}
+              description={note.description}
+              index={index}
+              noteColor={note.noteColor}
+            />
           );
         })}
       </div>

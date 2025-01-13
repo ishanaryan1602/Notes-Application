@@ -6,7 +6,7 @@ const NoteComponent = ({key,title,date,description,index,noteColor}) => {
   return (
     <div
     key={key}
-    className={`${noteColor} select-none note p-[40px] opacity-0 w-fit fadeInAnimationCards cursor-pointer shadow-md transition-all max-h-[fit] duration-300 hover:scale-105 relative`}
+    className={`${noteColor} select-none note p-[40px] opacity-0 w-fit fadeInAnimationCards cursor-pointer  shadow-md transition-all max-h-[fit] duration-300 hover:scale-105 relative`}
     style={{
       animationDelay: `${index * 0.2}s`,
     }}

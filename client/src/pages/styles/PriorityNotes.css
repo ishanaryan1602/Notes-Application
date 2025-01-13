@@ -1,16 +1,19 @@
 @keyframes fadeInAnimation {
-  from {
+  0% {
     opacity: 0;
     scale: 0;
   }
-  to {
+  20%{
+    scale: 1.1;
+  }
+  100% {
     opacity: 1;
     scale: 1;
   }
 }
 
 .fadeInAnimationCards {
-  animation: fadeInAnimation 0.3s forwards;
+  animation: fadeInAnimation 0.4s forwards;
 }
 
 .note:hover .edit-box{

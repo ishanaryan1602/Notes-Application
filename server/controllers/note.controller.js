@@ -39,7 +39,7 @@ const getAllNotes = asyncHanlder(async (req, res, next) => {
 });
 
 const createNote = asyncHanlder(async (req, res, next) => {
-  const { title, description, priority } = req.body;
+  const { title, description, priority, noteColor } = req.body;
   const userId = req.user._id;
   if (!title || !description) {
     const error = new Error("All fields are required");
@@ -53,12 +53,45 @@ const createNote = asyncHanlder(async (req, res, next) => {
       return next(error);
     }
   }
+  if (noteColor) {
+    if (
+      ![
+        "bg-slate-100",
+        "bg-gray-100",
+        "bg-zinc-100",
+        "bg-neutral-100",
+        "bg-stone-100",
+        "bg-red-100",
+        "bg-orange-100",
+        "bg-amber-100",
+        "bg-yellow-100",
+        "bg-lime-100",
+        "bg-green-100",
+        "bg-emerald-100",
+        "bg-teal-100",
+        "bg-cyan-100",
+        "bg-sky-100",
+        "bg-blue-100",
+        "bg-indigo-100",
+        "bg-violet-100",
+        "bg-purple-100",
+        "bg-fuchsia-100",
+        "bg-pink-100",
+        "bg-rose-100",
+      ].includes(noteColor)
+    ) {
+      const error = new Error("Invalid color field");
+      error.statusCode = 400;
+      return next(error);
+    }
+  }
   try {
     const user = await User.findById(userId);
     const newNote = new Note({
       title,
       description,
       priority,
+      noteColor,
       user_id: userId,
     });
     user.notes.push(newNote._id);
@@ -77,7 +110,7 @@ const createNote = asyncHanlder(async (req, res, next) => {
 const updateNote = asyncHanlder(async (req, res, next) => {
   const noteId = req.params.id;
   const userId = req.user._id;
-  const { title, description, priority } = req.body;
+  const { title, description, priority, noteColor } = req.body;
   try {
     const noteExists = await Note.findById(noteId);
 
@@ -105,8 +138,41 @@ const updateNote = asyncHanlder(async (req, res, next) => {
       }
       updates.priority = priority;
     }
+    if (noteColor) {
+      if (
+        ![
+          "bg-slate-100",
+          "bg-gray-100",
+          "bg-zinc-100",
+          "bg-neutral-100",
+          "bg-stone-100",
+          "bg-red-100",
+          "bg-orange-100",
+          "bg-amber-100",
+          "bg-yellow-100",
+          "bg-lime-100",
+          "bg-green-100",
+          "bg-emerald-100",
+          "bg-teal-100",
+          "bg-cyan-100",
+          "bg-sky-100",
+          "bg-blue-100",
+          "bg-indigo-100",
+          "bg-violet-100",
+          "bg-purple-100",
+          "bg-fuchsia-100",
+          "bg-pink-100",
+          "bg-rose-100",
+        ].includes(noteColor)
+      ) {
+        const error = new Error("Invalid color field");
+        error.statusCode = 400;
+        return next(error);
+      }
+      updates.noteColor = noteColor;
+    }
 
-    if (!title && !description && !priority) {
+    if (!title && !description && !priority && !noteColor) {
       const error = new Error("No fields were updated");
       error.statusCode = 400;
       return next(error);

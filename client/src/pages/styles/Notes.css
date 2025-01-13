@@ -18,3 +18,22 @@
 .notes-container::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Edge */
 }
+
+@keyframes spinEffect {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(120deg);
+  }
+  60% {
+    transform: rotate(130deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.spinAnimation {
+  animation: spinEffect 0.4s forwards;
+}

@@ -7,10 +7,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import NoteComponent from "../components/NoteComponent";
 import "./styles/Notes.css";
+import { FaPlus } from "react-icons/fa6";
 
 const Notes = () => {
   let [filteredNotes, setFilteredNotes] = useState([]);
   const [showByDate, setShowByDate] = useState("today");
+  const [showHoverAnimation, setShowHoverAnimation] = useState(false);
 
   const priorities = [
     {
@@ -60,10 +62,6 @@ const Notes = () => {
     fetchFilteredNotes();
   }, []);
 
-  useEffect(() => {
-    console.log(showByDate);
-  }, [showByDate]);
-
   // Filter notes by today's date
   const filterNotesByDate = (notes, dateFilter) => {
     const currentDate = new Date();
@@ -87,7 +85,19 @@ const Notes = () => {
   const filteredTodayNotes = filterNotesByDate(filteredNotes, showByDate);
 
   return (
-    <div>
+    <div className="relative min-h-[85vh]">
+      <Link
+        to="/create-note"
+        className={`bg-slate-100 text-[20px] transition-all duration-300 w-[60px] h-[60px] absolute right-0 bottom-[0%] flex justify-center items-center rounded-full overflow-hidden cursor-pointer`}
+        onMouseEnter={() => setShowHoverAnimation(true)}
+        onMouseLeave={() => setShowHoverAnimation(false)}
+      >
+        <FaPlus
+          className={`text-gray-600 ${
+            showHoverAnimation && "spinAnimation"
+          } `}
+        />
+      </Link>
       <div className="flex items-center justify-between">
         <h1 className="text-[30px] font-semibold">Find your priority</h1>
       </div>
@@ -137,7 +147,7 @@ const Notes = () => {
         </h1>
       </div>
 
-      <div className="notes-container w-full mt-[10px] overflow-x-scroll overflow-y-hidden">
+      <div className="notes-container w-full mt-[10px] overflow-x-scroll overflow-y-hidden relative">
         <div className="flex gap-[20px] my-[20px]">
           {filteredTodayNotes.map((note, index) => {
             const dateStr = note.createdAt;
@@ -147,14 +157,16 @@ const Notes = () => {
               day: "numeric",
             });
             return (
-              <NoteComponent
-                key={index}
-                title={note.title}
-                date={formattedDate}
-                description={note.description}
-                index={index}
-                noteColor={"bg-purple-50"}
-              />
+              <>
+                <NoteComponent
+                  key={note._id}
+                  title={note.title}
+                  date={formattedDate}
+                  description={note.description}
+                  index={index}
+                  noteColor={note.noteColor}
+                />
+              </>
             );
           })}
         </div>
